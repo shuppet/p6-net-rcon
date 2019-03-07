@@ -1,0 +1,19 @@
+{
+  "license": "BSD-3-Clause",
+  "repo-type": "git",
+  "source-url": "git@github.com:shuppet/p6-net-rcon.git",
+  "auth": "github:shuppet",
+  "depends": [
+    "IO::Socket::INET"
+  ],
+  "provides": {
+    "Net::RCON": "lib/API/RCON.pm6"
+  },
+  "name": "Net::RCON",
+  "description": "Perl 6 module for interacting with the Source RCON (remote console) protocol.",
+  "perl": "6.c",
+  "version": "0.0.1",
+  "authors": [
+    "Kane 'kawaii' Valentine <kane@cute.im>"
+  ]
+}
