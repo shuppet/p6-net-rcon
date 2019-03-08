@@ -1,6 +1,5 @@
 unit class Net::RCON;
 
-use IO::Socket::INET;
 use experimental :pack;
 
 constant {

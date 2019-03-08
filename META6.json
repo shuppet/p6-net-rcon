@@ -3,9 +3,6 @@
   "repo-type": "git",
   "source-url": "git@github.com:shuppet/p6-net-rcon.git",
   "auth": "github:shuppet",
-  "depends": [
-    "IO::Socket::INET"
-  ],
   "provides": {
     "Net::RCON": "lib/API/RCON.pm6"
   },
