@@ -9,14 +9,15 @@ enum SERVERDATA (
         AUTH => 3,
 );
 
-sub connect(:$hostname, :$port, :$password) {
+sub connect(:$host, :$port, :$password) is export {
 
-    my %arguments = host => $hostname // "localhost",
+    my %arguments = host => $host // "localhost",
                     port => $port // 27015,
-                    id => 0,
     ;
 
-    my $socket = IO::Socket::INET.new(:%arguments<hostname>, :%arguments<port>);
+    say %arguments;
+
+    my $socket = IO::Socket::INET.new(|%arguments);
     my $connection = $socket.accept;
 
     authenticate(:$connection, :$password);
@@ -25,14 +26,14 @@ sub connect(:$hostname, :$port, :$password) {
 sub authenticate(:$connection, :$password) {
 
     my $packet-type = SERVERDATA::AUTH;
-    my $data = $password;
+    my $message = $password;
 
-    send(:$connection, :$packet-type, :$data);
+    send(:$connection, :$packet-type, :$message);
 }
 
-sub send(:$connection, :$packet-type, :$data) {
+sub send(:$connection, :$packet-type, :$message) {
 
-    my $payload = pack("VV", 1, $packet-type) ~ $data ~ pack("xx");
+    my $payload = pack("VV", 1, $packet-type) ~ $message ~ pack("xx");
     $payload = pack("V", $payload.bytes) ~ $payload;
 
     $connection.write($payload);
