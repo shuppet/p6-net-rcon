@@ -2,12 +2,12 @@ unit class Net::RCON;
 
 use experimental :pack;
 
-constant {
-    SERVERDATA_RESPONSE_VALUE => 0,
-    SERVERDATA_AUTH_RESPONSE  => 2,
-    SERVERDATA_EXECCOMMAND    => 2,
-    SERVERDATA_AUTH           => 3
-};
+enum SERVERDATA (
+        RESPONSE_VALUE => 0,
+        AUTH_RESPONSE => 2,
+        EXECCOMMAND => 2,
+        AUTH => 3,
+);
 
 sub connect(:$hostname, :$port, :$password) {
 
@@ -24,15 +24,15 @@ sub connect(:$hostname, :$port, :$password) {
 
 sub authenticate(:$connection, :$password) {
 
-    my $type = SERVERDATA_AUTH;
+    my $packet-type = SERVERDATA::AUTH;
     my $data = $password;
 
-    send(:$connection, :$type, :$data);
+    send(:$connection, :$packet-type, :$data);
 }
 
-sub send(:$connection, :$type, :$data) {
+sub send(:$connection, :$packet-type, :$data) {
 
-    my $payload = pack("VV", 1, $type) ~ $data ~ pack("xx");
+    my $payload = pack("VV", 1, $packet-type) ~ $data ~ pack("xx");
     $payload = pack("V", $payload.bytes) ~ $payload;
 
     $connection.write($payload);
