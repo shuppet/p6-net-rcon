@@ -11,8 +11,8 @@ constant {
 
 sub connect(:$hostname, :$port, :$password) {
 
-    my %arguments = host => $hostname || "localhost",
-                    port => $port || 27015,
+    my %arguments = host => $hostname // "localhost",
+                    port => $port // 27015,
                     id => 0,
     ;
 
