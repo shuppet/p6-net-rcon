@@ -15,10 +15,7 @@ sub connect(:$host, :$port, :$password) is export {
                     port => $port // 27015,
     ;
 
-    say %arguments;
-
-    my $socket = IO::Socket::INET.new(|%arguments);
-    my $connection = $socket.accept;
+    my $connection = IO::Socket::INET.new(|%arguments);
 
     authenticate(:$connection, :$password);
 }
