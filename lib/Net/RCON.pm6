@@ -30,7 +30,7 @@ sub authenticate(:$connection, :$password) {
 
 sub send(:$connection, :$packet-type, :$message) {
 
-    my $payload = pack("VV", 1, $packet-type) ~ $message ~ pack("xx");
+    my $payload = pack("VV", 1, $packet-type) ~ $message.encode ~ pack("xx");
     $payload = pack("V", $payload.bytes) ~ $payload;
 
     $connection.write($payload);
