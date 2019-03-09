@@ -18,6 +18,11 @@ sub connect(:$host, :$port, :$password) is export {
     my $connection = IO::Socket::INET.new(|%arguments);
 
     authenticate(:$connection, :$password);
+
+    my $response = receive($connection);
+    unless $response == SERVERDATA::AUTH_RESPONSE {
+        die;
+    }
 }
 
 sub authenticate(:$connection, :$password) {
@@ -36,6 +41,9 @@ sub send(:$connection, :$packet-type, :$message) {
     $connection.write($payload);
 }
 
-sub recieve() {
-    
+sub receive($connection) {
+
+    my $response = $connection.recv(4096);
+    my ($response-size, $response-id, $packet-type, $response-body) = $response.unpack("VVVa*");
+    return $response-body;
 }
