@@ -38,12 +38,17 @@ sub send(:$connection, :$packet-type, :$message) {
     my $payload = pack("VV", 1, $packet-type) ~ $message.encode ~ pack("xx");
     $payload = pack("V", $payload.bytes) ~ $payload;
 
+    say $payload;
+    say $message;
+
     $connection.write($payload);
 }
 
 sub receive($connection) {
 
-    my $response = $connection.recv(4096);
+    my $response = $connection.recv(4096, :bin);
+    say $response;
     my ($response-size, $response-id, $packet-type, $response-body) = $response.unpack("VVVa*");
+    say $response-body;
     return $response-body;
 }
