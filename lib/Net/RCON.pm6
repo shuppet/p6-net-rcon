@@ -25,7 +25,7 @@ sub authenticate(:$connection, :$password) {
     my $message = $password;
 
     _raw_send(:$connection, :$packet-type, :$message);
-    my $response = receive($connection, SERVERDATA::AUTH_RESPONSE );
+    my $response = receive($connection, SERVERDATA::AUTH_RESPONSE);
     unless $response.defined {
         die "Could not authenticate against the RCON server.";
     }
@@ -33,7 +33,7 @@ sub authenticate(:$connection, :$password) {
 
 sub send(:$connection, :$packet-type, :$message) is export {
     _raw_send(:$connection, :$packet-type, :$message);
-    my $response = receive($connection, SERVERDATA::RESPONSE_VALUE );
+    my $response = receive($connection, SERVERDATA::RESPONSE_VALUE);
     unless $response.defined {
         die "Received a bad response from the RCON server.";
     }
