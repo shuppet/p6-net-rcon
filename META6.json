@@ -4,7 +4,7 @@
   "source-url": "git://github.com/shuppet/p6-net-rcon.git",
   "auth": "github:shuppet",
   "provides": {
-    "Net::RCON": "lib/API/RCON.pm6"
+    "Net::RCON": "lib/Net/RCON.pm6"
   },
   "name": "Net::RCON",
   "description": "Perl 6 module for interacting with the Source RCON (remote console) protocol.",
