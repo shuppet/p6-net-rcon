@@ -26,6 +26,7 @@ sub authenticate(:$connection, :$password) {
 
     _raw_send(:$connection, :$packet-type, :$message);
     my $response = receive($connection, SERVERDATA::AUTH_RESPONSE);
+
     unless $response.defined {
         die "Could not authenticate against the RCON server.";
     }
@@ -52,7 +53,7 @@ sub receive($connection, $expected-type) {
     my $response = $connection.recv(4096, :bin);
     my ($response-size, $response-id, $packet-type, $response-body) = $response.unpack("VVVa*");
 
-    if ($response-id == 1 && $packet-type == $expected-type && $response-size > 10 && $response-size <= 4096) {
+    if ($response-id == 1 && $packet-type == $expected-type && $response-size >= 10 && $response-size <= 4096) {
         return $response-body;
     }
 
